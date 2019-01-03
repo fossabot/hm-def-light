@@ -1,0 +1,17 @@
+{
+  "name": "hm-def-light",
+  "version": "0.1.0",
+  "description": "Runtime Hindley-Milner ad hoc type checking with Sanctuary",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "leosbotelho",
+  "license": "MIT",
+  "dependencies": {
+    "hm-lang-light": "^0.1.7",
+    "sanctuary": "^0.15.0"
+  },
+  "devDependencies": {
+    "esm": "^3.0.84"
+  }
+}
