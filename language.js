@@ -332,7 +332,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
       const f = ([a, ...b]) => {
         // _f :: [Rose Type] -> Type
         const _f  = 
-          ifElse (sizeCmp (gte (2))) (f) (Rose.root)
+          ifElse (sizeCmp (gte (2))) (f) (unsafeHead)
 
         const _g  = 
           a === UnitSym ? C (K) : prepend
