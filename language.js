@@ -72,7 +72,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
   // type Parser = Rose TypeCarton -> Either String Any # =
   // # ...              ::                          Type
   // # thunk            ::                          Symbol
-  // # constraint       ::                          Pair String Type
+  // # constraint       ::                          Pair Type TypeClass
 
   // type QuasiParser = StrMap Parser -> Parser
 
