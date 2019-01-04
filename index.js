@@ -45,11 +45,22 @@ export default ({create,
   // B combinator; alias
   const B = S.compose
 
+  // maybeToList :: Maybe a -> [a]
+  const maybeToList = S.lift2 (S.maybe) (S.empty) (S.of) (Array)
+
+  // extractTypeLL :: Type -> Maybe Type
+  const extractTypeLL = k => S.gets (_ => true) (["types", k, "type"])
+
+  // adaptFn :: Type -> [Type]
+  const adaptFn = Fn => S.on (S.on (S.concat) (maybeToList)) 
+                             (S.flip (extractTypeLL) (Fn))
+                             ("$1") ("$2")
+
   // SupraHMLang :: StrMap Parser
   const SupraHMLang      = _SupraHMLang ({S, $ : SDef, Z, typeClasses, __checkTypes})
 
   // parseType :: Parser
-  const parseType        = B (S.map (fn => [fn.types.$1.type, fn.types.$2.type]))
+  const parseType        = B (S.map (adaptFn))
                              (SupraHMLang.function)
 
   // groupConstraints :: [Pair Type TypeClass] -> [Pair Type [TypeClass]]

@@ -71,7 +71,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
 
   // type Parser = Rose TypeCarton -> Either String Any # =
   // # ...              ::                          Type
-  // # thunkParenthesis ::                          Symbol
+  // # thunk            ::                          Symbol
   // # constraint       ::                          Pair String Type
 
   // type QuasiParser = StrMap Parser -> Parser
@@ -321,9 +321,9 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
         map (FunctionType)
       ]),
 
-    thunkParenthesis: $ =>
+    thunk: $ =>
       lift2 (C (ap))
-            (Right (UnitSym))
+            (_ => Right (UnitSym))
             (B (empty) (Rose.forest)),
 
     function: $ => {
