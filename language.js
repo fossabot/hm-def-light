@@ -114,8 +114,8 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
   // sizeCmp :: Foldable a => a -> Boolean
   const sizeCmp   = C (B) (size)
 
-  // notEmptyText :: a -> Either String String
-  const notEmptyText =
+  // nonEmptyText :: a -> Either String String
+  const nonEmptyText =
     ifElse (B (lengthCmp (gte (1))) (text))
            (B (Right) (text))
            (x => Left (`Empty text in ${show (x)}`))
@@ -289,7 +289,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
   const _parsers = {
     typeVariable: $ =>
       lift2 (C (ap))
-            (pipe ([Rose.root, notEmptyText, map (TypeVariable)]))
+            (pipe ([Rose.root, nonEmptyText, map (TypeVariable)]))
             (B (empty) (Rose.forest)),
 
     list: $ =>
@@ -305,7 +305,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
 
     recordField: $ =>
       lift2 (ap)
-            (pipe ([Rose.root, notEmptyText, map (Pair)]))
+            (pipe ([Rose.root, nonEmptyText, map (Pair)]))
             (pipe ([Rose.forest, single, chain ($.type)])),
 
     uncurriedFunctionParams: $ =>
@@ -359,7 +359,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
         ]) ($)
 
       return lift2 (ap) 
-                   (pipe ([Rose.root, notEmptyText, chain (fetchType), map (polyVariadicMagic)]))
+                   (pipe ([Rose.root, nonEmptyText, chain (fetchType), map (polyVariadicMagic)]))
                    (pipe ([Rose.forest, 
                            Combinators.atMost (2), 
                            chain (traverse (Either) (typeConstructorArg))]))
@@ -383,7 +383,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
       }
 
       return lift2 (ap)
-                   (pipe ([Rose.root, notEmptyText, map (f)]))
+                   (pipe ([Rose.root, nonEmptyText, map (f)]))
                    (pipe ([Rose.forest, 
                            Combinators.atMost (2), 
                            chain (traverse (Either) (constrainedTypeArg))]))
@@ -398,7 +398,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
         ]) ($)
 
       return lift2 (ap)
-                   (pipe ([Rose.root, notEmptyText, chain (fetchTypeClass), map (C (Pair))]))
+                   (pipe ([Rose.root, nonEmptyText, chain (fetchTypeClass), map (C (Pair))]))
                    (pipe ([Rose.forest, single, chain (constraintArg)]))      
     }
   }
