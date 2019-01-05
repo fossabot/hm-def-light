@@ -4,6 +4,7 @@
   "description": "Runtime Hindley-Milner ad hoc type checking with Sanctuary",
   "main": "index.js",
   "scripts": {
+    "test": "node -r esm test/test.js"
   },
   "author": "leosbotelho",
   "license": "MIT",
@@ -12,6 +13,7 @@
     "sanctuary": "^0.15.0"
   },
   "devDependencies": {
-    "esm": "^3.0.84"
+    "esm": "^3.0.84",
+    "tape": "^4.9.2"
   }
 }
