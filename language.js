@@ -242,7 +242,8 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
                             "Pair"   : S.PairType,
                             "StrMap" : SDef.StrMap,
                             "Array2" : SDef.Array2,
-                            "Array"  : ArrayType})
+                            "Array"  : ArrayType,
+                            "Any"    : SDef.Any})
 
   // typeClassMap :: StrMap TypeClass
   const typeClassMap = (() => {
