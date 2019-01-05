@@ -4,6 +4,9 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
   /* Dependencies */
 
+  // internally, only S.unchecked is used
+  const {unchecked : U} = S
+
   const {
     // Birds
     I,
@@ -47,7 +50,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
     mapLeft,
     maybeToEither
 
-  } = S.unchecked
+  } = U
 
   const {
       Type,
@@ -89,7 +92,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   ]
 
   // polyVariadicMagic :: ((a ->)^n b) -> [a] -> b
-  const polyVariadicMagic = (S.unchecked).reduce (I)
+  const polyVariadicMagic = U.reduce (I)
 
   // unsafeHead :: [a] -> a
   const unsafeHead = xs => xs[0]
@@ -100,17 +103,17 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
   // indexBy :: (a -> String) -> b -> StrMap a
   const indexBy = f =>
-    reduce (xs => x => S.insert (f (x)) (x) (xs))
+    reduce (xs => x => U.insert (f (x)) (x) (xs))
            ({})
 
   // text :: a -> b
-  const text   = S.prop ("text")
+  const text   = U.prop ("text")
 
   // name :: a -> b
-  const name   = S.prop ("name")
+  const name   = U.prop ("name")
 
   // length :: a -> b
-  const length = S.prop ("length") 
+  const length = U.prop ("length")
 
   // lengthCmp :: a -> Boolean
   const lengthCmp = C (B) (length)
@@ -186,7 +189,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
       // root     :: TypeCarton
       const root     = Rose.root (s)
       // rootType :: String
-      const rootType = S.prop ("type") (root) 
+      const rootType = U.prop ("type") (root)
 
       return elem (rootType) (expected) ?
         $[rootType] (s) : Left (_errorMsg (expected) (rootType))
@@ -194,14 +197,14 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
     const ward = p => {
       // parserId :: String
-      const parserId = S.fst (p)
+      const parserId = U.fst (p)
 
       return Pair (parserId) ($ => s => {
         // reqParser :: String
-        const reqParser = S.prop ("type") (Rose.root (s))
+        const reqParser = U.prop ("type") (Rose.root (s))
 
         return reqParser === parserId ?
-          S.snd (p) ($) (s) : Left (_errorMsg (parserId) (reqParser))        
+          U.snd (p) ($) (s) : Left (_errorMsg (parserId) (reqParser))
       })
     }
 
@@ -209,11 +212,11 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
     const createLanguage = parsers => {
       const language = {}
 
-      for (let x of S.pairs (parsers)) {
-        const parserId = S.fst (x)
+      for (let x of U.pairs (parsers)) {
+        const parserId = U.fst (x)
 
         language[parserId] = s => mapLeft (err => `<${parserId}> ${err}`) 
-                                          (S.snd (x) (language) (s))
+                                          (U.snd (x) (language) (s))
       }
 
       return language
@@ -227,26 +230,26 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
   // isType :: a -> Boolean
   const isType =
-    S.anyPass ([
+    U.anyPass ([
       // Type ?
-      S.is (Type),
+      U.is (Type),
       // Type -> Type ?
-      S.is (FunctionType ([Type, Type])),
+      U.is (FunctionType ([Type, Type])),
       // Type -> Type -> Type ?
-      S.is (FunctionType ([Type, FunctionType ([Type, Type])]))
+      U.is (FunctionType ([Type, FunctionType ([Type, Type])]))
     ])
 
   // isTypeClass :: a -> Boolean
-  const isTypeClass = S.is (TypeClass)
+  const isTypeClass = U.is (TypeClass)
 
   // _typeMap :: Either String (StrMap Type')
   const _typeMap  = (() => {
 
     // tm0 :: StrMap Type'
-    const tm0 = concat (indexBy (typeName) (S.env))
-                       ({"Maybe"    : S.MaybeType,
-                         "Either"   : S.EitherType,
-                         "Pair"     : S.PairType,
+    const tm0 = concat (indexBy (typeName) (U.env))
+                       ({"Maybe"    : U.MaybeType,
+                         "Either"   : U.EitherType,
+                         "Pair"     : U.PairType,
                          "StrMap"   : SDef.StrMap,
                          "Array2"   : SDef.Array2,
                          "Array"    : ArrayType,
@@ -254,15 +257,15 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
                          "Any"      : SDef.Any       })
 
     // tm1 :: Either String (StrMap Type')
-    const tm1 = B (mapLeft (B (x => `Unrecognized \`Type\` ${x}`) (S.fst)))
-                  (map (S.fromPairs))
+    const tm1 = B (mapLeft (B (x => `Unrecognized \`Type\` ${x}`) (U.fst)))
+                  (map (U.fromPairs))
                        (traverse (Either)
                                  (tagBy (lift2 (and)
-                                               (B (isType) (S.snd))
+                                               (B (isType) (U.snd))
                                                (B (isJust)
-                                                  (B (C (S.get (_ => true)) (tm0))
-                                                     (S.fst)))))
-                                 (S.pairs (typeConstructors)))
+                                                  (B (C (U.get (_ => true)) (tm0))
+                                                     (U.fst)))))
+                                 (U.pairs (typeConstructors)))
 
     // :: Either String (StrMap Type')
     return lift2 (concat) (Right (tm0))
@@ -270,20 +273,20 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   }) ()
 
   // typeMap :: StrMap Type'
-  const typeMap = S.either (err => {throw err}) (I) (_typeMap)
+  const typeMap = U.either (err => {throw err}) (I) (_typeMap)
 
   // _typeClassMap :: StrMap TypeClass
   const _typeClassMap = (() => {
 
     // tcm0 :: StrMap TypeClass
     const tcm0 = 
-      S.justs (map (C (S.get (isTypeClass)) (Z))
-                   (S.fromPairs (join (zip) (typeClassesBaseline))))
+      U.justs (map (C (U.get (isTypeClass)) (Z))
+                   (U.fromPairs (join (zip) (typeClassesBaseline))))
     
     // tcm1 :: Either a (StrMap TypeClass)
     const tcm1 = 
       B (mapLeft (x => `Unrecognized \`TypeClass\` ${show (x)}`))
-        (map (S.fromPairs))
+        (map (U.fromPairs))
              (map (xs => zip (map (typeName) (typeClasses)) (xs))
                   (traverse (Either)
                             (tagBy (isTypeClass))
@@ -296,26 +299,26 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   }) ()
 
   // typeClassMap :: StrMap TypeClass
-  const typeClassMap = S.either (err => {throw err}) (I) (_typeClassMap)
+  const typeClassMap = U.either (err => {throw err}) (I) (_typeClassMap)
 
   // fetchType :: String -> Either String Type
   const fetchType = name => 
     maybeToEither (`Unrecognized \`Type\` ${name}`) 
-                  (S.get (isType) (name) (typeMap))
+                  (U.get (isType) (name) (typeMap))
 
   // fetchTypeClass :: String -> Either String TypeClass
   const fetchTypeClass = name =>
     maybeToEither (`Unrecognized \`TypeClass\` ${name}`)
-                  (S.get (isTypeClass) (name) (typeClassMap))
+                  (U.get (isTypeClass) (name) (typeClassMap))
 
   // wardParsers :: StrMap QuasiParser -> StrMap QuasiParser
-  const wardParsers = pipe ([S.pairs, map (P.ward), S.fromPairs])
+  const wardParsers = pipe ([U.pairs, map (P.ward), U.fromPairs])
 
   /* Main */
 
   // type :: QuasiParser
   const type =
-    ap (C (P.match)) (B (map (S.fst)) (S.pairs))
+    ap (C (P.match)) (B (map (U.fst)) (U.pairs))
 
   // _parsers :: StrMap QuasiParser
   const _parsers = {
@@ -332,7 +335,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
         Rose.forest,
         notEmpty,
         chain (traverse (Either) ($.recordField)), 
-        map (B (RecordType) (S.fromPairs))
+        map (B (RecordType) (U.fromPairs))
       ]),
 
     recordField: $ =>
