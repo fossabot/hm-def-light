@@ -396,7 +396,8 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
       // constraintArg :: Parser
       const constraintArg =
         P.match ([
-          "typeVariable"
+          "typeVariable",
+          "constrainedType"
         ]) ($)
 
       return lift2 (ap)

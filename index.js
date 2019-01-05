@@ -63,7 +63,7 @@ export default ({create,
     B (S.map (S.lift2 (S.Pair) 
                       (xs => S.fst (xs[0]))
                       (S.map (S.snd))))
-      (S.groupBy (S.on (S.equals) (S.fst)))
+      (S.groupBy (S.on (S.equals) (B (S.prop ("name")) (S.fst))))
 
   // constraintsFromPairs :: [Pair Type [TypeClass]] -> StrMap [TypeClass]
   const constraintsFromPairs = B (S.fromPairs) 
