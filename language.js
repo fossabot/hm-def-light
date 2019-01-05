@@ -272,27 +272,31 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   // typeMap :: StrMap Type'
   const typeMap = S.either (err => {throw err}) (I) (_typeMap)
 
-  // typeClassMap :: StrMap TypeClass
-  const typeClassMap = (() => {
+  // _typeClassMap :: StrMap TypeClass
+  const _typeClassMap = (() => {
 
     // tcm0 :: StrMap TypeClass
     const tcm0 = 
-      S.justs (map (C (S.get (isTypeClass)) (Z)) 
+      S.justs (map (C (S.get (isTypeClass)) (Z))
                    (S.fromPairs (join (zip) (typeClassesBaseline))))
     
     // tcm1 :: Either a (StrMap TypeClass)
     const tcm1 = 
-      map (S.fromPairs)
-          (map (xs => zip (map (typeName) (typeClasses)) (xs))
-               (traverse (Either)
-                         (tagBy (isTypeClass))
-                         (typeClasses)))
+      B (mapLeft (x => `Unrecognized \`TypeClass\` ${show (x)}`))
+        (map (S.fromPairs))
+             (map (xs => zip (map (typeName) (typeClasses)) (xs))
+                  (traverse (Either)
+                            (tagBy (isTypeClass))
+                            (typeClasses)))
 
-    return concat (tcm0) 
-                  (S.either (x => {throw `Unrecognized \`TypeClass\` ${show (x)}`})
-                            (I)
-                            (tcm1))
+    // :: Either String (StrMap TypeClass)
+    return lift2 (concat)
+                 (Right (tcm0))
+                 (tcm1)
   }) ()
+
+  // typeClassMap :: StrMap TypeClass
+  const typeClassMap = S.either (err => {throw err}) (I) (_typeClassMap)
 
   // fetchType :: String -> Either String Type
   const fetchType = name => 
