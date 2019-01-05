@@ -1,6 +1,6 @@
 import {parse as parseTypeId} from "sanctuary-type-identifiers"
 
-export default ({S, $ : SDef, Z, typeClasses}) => {
+export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
   /* Dependencies */
 
@@ -31,6 +31,7 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
     lte,
     equals,
     gte,
+    and,
     elem,
     size,
     prepend,
@@ -40,6 +41,7 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
     Either,
     Left,
     Right,
+    isJust,
     isLeft,
     tagBy,
     mapLeft,
@@ -75,6 +77,8 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
   // # constraint       ::                          Pair Type TypeClass
 
   // type QuasiParser = StrMap Parser -> Parser
+
+  // # type Type' = (Type ->)^{0,1,2} Type
 
   // typeClassesBaseline :: [String]
   const typeClassesBaseline = [
@@ -235,16 +239,38 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
   // isTypeClass :: a -> Boolean
   const isTypeClass = S.is (TypeClass)
 
-  // typeMap :: StrMap Type
-  const typeMap  = concat (indexBy (typeName) (S.env))
-                          ({"Maybe"    : S.MaybeType,
-                            "Either"   : S.EitherType,
-                            "Pair"     : S.PairType,
-                            "StrMap"   : SDef.StrMap,
-                            "Array2"   : SDef.Array2,
-                            "Array"    : ArrayType,
-                            "Nullable" : SDef.Nullable,
-                            "Any"      : SDef.Any       })
+  // _typeMap :: Either String (StrMap Type')
+  const _typeMap  = (() => {
+
+    // tm0 :: StrMap Type'
+    const tm0 = concat (indexBy (typeName) (S.env))
+                       ({"Maybe"    : S.MaybeType,
+                         "Either"   : S.EitherType,
+                         "Pair"     : S.PairType,
+                         "StrMap"   : SDef.StrMap,
+                         "Array2"   : SDef.Array2,
+                         "Array"    : ArrayType,
+                         "Nullable" : SDef.Nullable,
+                         "Any"      : SDef.Any       })
+
+    // tm1 :: Either String (StrMap Type')
+    const tm1 = B (mapLeft (B (x => `Unrecognized \`Type\` ${x}`) (S.fst)))
+                  (map (S.fromPairs))
+                       (traverse (Either)
+                                 (tagBy (lift2 (and)
+                                               (B (isType) (S.snd))
+                                               (B (isJust)
+                                                  (B (C (S.get (_ => true)) (tm0))
+                                                     (S.fst)))))
+                                 (S.pairs (typeConstructors)))
+
+    // :: Either String (StrMap Type')
+    return lift2 (concat) (Right (tm0))
+                          (tm1)
+  }) ()
+
+  // typeMap :: StrMap Type'
+  const typeMap = S.either (err => {throw err}) (I) (_typeMap)
 
   // typeClassMap :: StrMap TypeClass
   const typeClassMap = (() => {

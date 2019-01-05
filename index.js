@@ -10,7 +10,8 @@ export default ({create,
                  $ : SDef, 
                  Z, 
                  checkTypes, 
-                 typeClasses }) => {
+                 typeClasses,
+                 typeConstructors }) => {
 
   // checkTypes :: Boolean
   checkTypes = !!checkTypes
@@ -18,6 +19,10 @@ export default ({create,
   // typeClasses :: [TypeClass]
   typeClasses = 
     typeof typeClasses === "undefined" ? [] : typeClasses
+
+  // # typeConstructors :: StrMap ((Type ->)^{1,2} Type)
+  typeConstructors =
+    typeof typeConstructors === "undefined" ? {} : typeConstructors
 
   // runP :: String -> String -> Rose TypeCarton
   const runP       = _runP (HMLang)
@@ -52,7 +57,7 @@ export default ({create,
                              ("$1") ("$2")
 
   // SupraHMLang :: StrMap Parser
-  const SupraHMLang      = _SupraHMLang ({S, $ : SDef, Z, typeClasses})
+  const SupraHMLang      = _SupraHMLang ({S, $ : SDef, Z, typeClasses, typeConstructors})
 
   // parseType :: Parser
   const parseType        = B (S.map (adaptFn))
