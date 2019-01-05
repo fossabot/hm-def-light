@@ -237,13 +237,14 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
 
   // typeMap :: StrMap Type
   const typeMap  = concat (indexBy (typeName) (S.env))
-                          ({"Maybe"  : S.MaybeType,
-                            "Either" : S.EitherType,
-                            "Pair"   : S.PairType,
-                            "StrMap" : SDef.StrMap,
-                            "Array2" : SDef.Array2,
-                            "Array"  : ArrayType,
-                            "Any"    : SDef.Any})
+                          ({"Maybe"    : S.MaybeType,
+                            "Either"   : S.EitherType,
+                            "Pair"     : S.PairType,
+                            "StrMap"   : SDef.StrMap,
+                            "Array2"   : SDef.Array2,
+                            "Array"    : ArrayType,
+                            "Nullable" : SDef.Nullable,
+                            "Any"      : SDef.Any       })
 
   // typeClassMap :: StrMap TypeClass
   const typeClassMap = (() => {
