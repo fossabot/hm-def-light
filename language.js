@@ -1,6 +1,6 @@
 import {parse as parseTypeId} from "sanctuary-type-identifiers"
 
-export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
+export default ({S, $ : SDef, Z, typeClasses}) => {
 
   /* Dependencies */
 
@@ -45,7 +45,7 @@ export default ({S, $ : SDef, Z, typeClasses, __checkTypes}) => {
     mapLeft,
     maybeToEither
 
-  } = __checkTypes ? S : S.unchecked
+  } = S.unchecked
 
   const {
       Type,
