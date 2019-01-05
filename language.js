@@ -373,7 +373,8 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
         P.match ([
           "typeConstructor",
           "typeVariable",
-          "function"
+          "function",
+          "constrainedType"
         ]) ($)
 
       // f :: String -> [Type] -> Type
