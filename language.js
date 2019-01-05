@@ -357,7 +357,8 @@ export default ({S, $ : SDef, Z, typeClasses}) => {
         P.match ([
           "typeConstructor",
           "typeVariable",
-          "function"
+          "function",
+          "record"
         ]) ($)
 
       return lift2 (ap) 
