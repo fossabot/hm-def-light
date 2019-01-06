@@ -373,6 +373,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
     function: $ => {
 
+      // functionArg :: Parser
       const functionArg = lift2 (alt) ($.thunk) ($.type)
 
       // f :: Rose Type -> Type
