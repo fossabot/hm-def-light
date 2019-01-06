@@ -254,6 +254,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
                          "Array2"   : SDef.Array2,
                          "Array"    : ArrayType,
                          "Nullable" : SDef.Nullable,
+                         "NonEmpty" : SDef.NonEmpty,
                          "Any"      : SDef.Any       })
 
     // tm1 :: Either String (StrMap Type')
