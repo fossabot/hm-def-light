@@ -127,7 +127,7 @@ ex3 ([])    // error
 
 And if you need custom `Type'`s or `TypeClass`es, there's no secret, e.g:
 ```javascript
-const customEnv = env.concat ([MyCustomType (SDef.Unknown)]) // Type' in env is mandatory 
+const customEnv = env.concat ([MyCustomType (SDef.Unknown)]) // `Type` in env is mandatory
 
 const S = create ({
   checkTypes, 
