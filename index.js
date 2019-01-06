@@ -24,7 +24,7 @@ export default ({create,
   typeConstructors =
     typeof typeConstructors === "undefined" ? {} : typeConstructors
 
-  // runP :: StrMap (String -> Rose TypeCarton) -> String -> String -> Rose TypeCarton
+  // runP :: String -> String -> Rose TypeCarton
   const runP       = _runP (HMLang)
 
   // parseEarly :: String -> Rose TypeCarton
