@@ -70,7 +70,7 @@ export default ({create,
   // maybeToList :: Maybe a -> [a]
   const maybeToList = lift2 (U.maybe) (U.empty) (U.of) (Array)
 
-  // extractTypeLL :: Type -> Maybe Type
+  // extractTypeLL :: String -> Type -> Maybe Type
   const extractTypeLL = k => U.gets (_ => true) (["types", k, "type"])
 
   // adaptFn :: Type -> [Type]
