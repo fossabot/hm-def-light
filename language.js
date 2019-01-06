@@ -319,7 +319,15 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
   // type :: QuasiParser
   const type =
-    ap (C (P.match)) (B (map (U.fst)) (U.pairs))
+    P.match ([
+      "uncurriedFunction",
+      "function",
+      "list",
+      "record",
+      "constrainedType",
+      "typeConstructor",
+      "typeVariable"
+    ])
 
   // _parsers :: StrMap QuasiParser
   const _parsers = {
