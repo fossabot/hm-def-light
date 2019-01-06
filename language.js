@@ -248,9 +248,9 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
     // tm0 :: StrMap Type'
     const tm0 = concat (indexBy (typeName) (U.env))
-                       ({"Maybe"    : U.MaybeType,
-                         "Either"   : U.EitherType,
-                         "Pair"     : U.PairType,
+                       ({"Maybe"    : S.MaybeType,
+                         "Either"   : S.EitherType,
+                         "Pair"     : S.PairType,
                          "StrMap"   : SDef.StrMap,
                          "Array2"   : SDef.Array2,
                          "Array"    : ArrayType,
