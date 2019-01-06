@@ -1,6 +1,6 @@
 {
   "name": "hm-def-light",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Runtime Hindley-Milner ad hoc type checking with Sanctuary",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "author": "leosbotelho",
   "license": "MIT",
+  "repository": "github:leosbotelho/hm-def-light",
   "dependencies": {
     "hm-lang-light": "^0.1.7",
     "sanctuary": "^0.15.0"
