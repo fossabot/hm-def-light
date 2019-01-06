@@ -392,7 +392,8 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
           "typeConstructor",
           "typeVariable",
           "function",
-          "record"
+          "record",
+          "list"
         ]) ($)
 
       return lift2 (ap) 
