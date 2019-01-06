@@ -28,6 +28,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
     reduce,
     traverse,
     sequence,
+    alt,
     filter,
     ifElse,
     show,
@@ -372,6 +373,8 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
     function: $ => {
 
+      const functionArg = lift2 (alt) ($.thunk) ($.type)
+
       // f :: Rose Type -> Type
       const f = ([a, ...b]) => {
         // _f :: [Rose Type] -> Type
@@ -387,7 +390,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
       return pipe ([
         Rose.forest,
         many,
-        chain (traverse (Either) ($.type)),
+        chain (traverse (Either) (functionArg)),
         map (f)
       ])
     },
