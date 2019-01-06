@@ -34,13 +34,13 @@ checkTypes       : Boolean
 typeClasses      : optional [TypeClass]
 typeConstructors : optional StrMap Type'
 ```
-<sup>Params 1-5 are not checked for correctness: they're supposed to be correct.</sup>
+<sup>Params 1-5 are not checked for correctness: they're supposed to be correct.</sup><br>
 <sup>Type' is a -fancy, uncanon- alias for $ `Nullary`, `Unary` and `Binary` types.</sup>
 
 One by one brief:
 ```yaml
 create           : for internal -unchecked- S retrieval
-env              : basis for default `Type'`s (e.g: `Number`, `HtmlElement`, `Error` etc)
+env              : basis for -default- `Type'`s (e.g: `Number`, `HtmlElement`, `Error` etc)
 $                : for `Type`s construction
 Z                : basis for default `TypeClasses` (e.g: `Functor`, `Alt`, `Traversable` etc)
 checkTypes       : "The checkTypes option determines whether type checking is enabled. 
