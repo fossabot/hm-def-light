@@ -407,6 +407,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
       // constrainedTypeArg :: Parser
       const constrainedTypeArg = 
         P.match ([
+          "record",
           "typeConstructor",
           "typeVariable",
           "function",
