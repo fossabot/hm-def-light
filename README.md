@@ -80,7 +80,7 @@ add ("a") ("b") // error - in case of checkTypes = true
 add ("c") ("d") // error ...
 ```
 
-As a design choice, `def` is not memoized by default.  
+As a design choice, `def` is not memoized.  
 So you should be attentious to repeated `def` calls:
 ```javascript
 while (true) {
