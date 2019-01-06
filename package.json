@@ -1,6 +1,6 @@
 {
   "name": "hm-def-light",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Runtime Hindley-Milner ad hoc type checking with Sanctuary",
   "main": "index.js",
   "scripts": {
