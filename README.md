@@ -116,7 +116,7 @@ ex2 (Nothing)     // Left  ("dummy")
 ex2 ("arbitrary") // error
 
 const ex3 =
-def ("ex3 :: NonEmpty (Array Number) -> Number")
+def ("ex3 :: NonEmpty [Number] -> Number")
     (arr => arr[0])
 
 ex3 ([1,2]) // ok
