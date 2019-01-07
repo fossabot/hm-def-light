@@ -45,6 +45,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
     Either,
     Left,
     Right,
+    either,
     isJust,
     isLeft,
     tagBy,
@@ -275,7 +276,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   }) ()
 
   // typeMap :: StrMap Type'
-  const typeMap = U.either (err => {throw err}) (I) (_typeMap)
+  const typeMap = either (err => {throw err}) (I) (_typeMap)
 
   // _typeClassMap :: StrMap TypeClass
   const _typeClassMap = (() => {
@@ -301,7 +302,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   }) ()
 
   // typeClassMap :: StrMap TypeClass
-  const typeClassMap = U.either (err => {throw err}) (I) (_typeClassMap)
+  const typeClassMap = either (err => {throw err}) (I) (_typeClassMap)
 
   // fetchType :: String -> Either String Type
   const fetchType = name => 

@@ -63,6 +63,7 @@ export default ({create,
     Pair,
     Either,
     Right,
+    either,
     mapLeft
 
   } = U
@@ -123,8 +124,8 @@ export default ({create,
                                 (parseType        (type))
 
                 // :: AnyFunction
-                return U.either (err => {throw err})
-                                (I)
-                                (g)
+                return either (err => {throw err})
+                              (I)
+                              (g)
               })
 }
