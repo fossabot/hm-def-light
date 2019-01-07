@@ -96,6 +96,9 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   // polyVariadicMagic :: ((a ->)^n b) -> [a] -> b
   const polyVariadicMagic = U.reduce (I)
 
+  // isRoseF :: Type -> Type -> Boolean
+  const isRoseF = a => b => U.is (SDef.Array2 (a) (b))
+
   // unsafeHead :: [a] -> a
   const unsafeHead = xs => xs[0]
 
