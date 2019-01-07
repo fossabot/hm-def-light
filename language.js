@@ -1,5 +1,7 @@
 import {parse as parseTypeId} from "sanctuary-type-identifiers"
 
+import TypeCarton from "./type-carton"
+
 export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
   /* Dependencies */
@@ -205,6 +207,11 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
       const parserId = U.fst (p)
 
       return Pair (parserId) ($ => s => {
+
+        if(!isRoseF (TypeCarton) (SDef.Any) (s)) {
+          return Left (_errorMsg ("a Rose TypeCarton") (s))
+        }
+
         // reqParser :: String
         const reqParser = U.prop ("type") (Rose.root (s))
 
