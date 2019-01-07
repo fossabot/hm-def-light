@@ -63,13 +63,14 @@ export default ({create,
     Pair,
     Either,
     Right,
+    maybe,
     either,
     mapLeft
 
   } = U
 
   // maybeToList :: Maybe a -> [a]
-  const maybeToList = lift2 (U.maybe) (U.empty) (U.of) (Array)
+  const maybeToList = lift2 (maybe) (U.empty) (U.of) (Array)
 
   // extractTypeLL :: String -> Type -> Maybe Type
   const extractTypeLL = k => U.gets (_ => true) (["types", k, "type"])
