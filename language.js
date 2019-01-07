@@ -170,8 +170,8 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   const empty    = B (map (C (K)))
                      (Combinators.exactly (0))
 
-  // notEmpty :: [a] -> Either String [a]
-  const notEmpty = Combinators.atLeast (1)
+  // nonEmpty :: [a] -> Either String [a]
+  const nonEmpty = Combinators.atLeast (1)
 
   // single   :: [a] -> Either String a 
   const single   = B (map (unsafeHead))
@@ -343,7 +343,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
     record: $ =>
       pipe ([
         Rose.forest,
-        notEmpty,
+        nonEmpty,
         chain (traverse (Either) ($.recordField)), 
         map (B (RecordType) (U.fromPairs))
       ]),
