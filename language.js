@@ -207,13 +207,11 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   // }
   const P = (() => {
     const match = expected => $ => s => {
-      // root     :: TypeCarton
-      const root     = Rose.root (s)
-      // rootType :: String
-      const rootType = U.prop ("type") (root)
 
-      return elem (rootType) (expected) ?
-        $[rootType] (s) : Left (ErrorMsg.simulacrum (`any of ${show (expected)}`) (rootType))
+      return U.ifElse (C (elem) (expected))
+                      (k => $[k] (s))
+                      (B (Left) (ErrorMsg.simulacrum (`any of ${show (expected)}`)))
+                      (U.prop ("type") (Rose.root (s)))
     }
 
     const ward = p => {
