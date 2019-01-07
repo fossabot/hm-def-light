@@ -39,7 +39,7 @@ typeConstructors : optional StrMap Type'
 
 One by one brief:
 ```yaml
-create           : for internal -unchecked- S retrieval
+create           : for internal S retrieval
 env              : basis for -default- `Type'`s (e.g: `Number`, `HtmlElement`, `Error` etc)
 $                : for `Type`s construction
 Z                : basis for default `TypeClasses` (e.g: `Functor`, `Alt`, `Traversable` etc)
