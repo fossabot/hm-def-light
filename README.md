@@ -40,7 +40,7 @@ typeConstructors : optional StrMap Type'
 One by one brief:
 ```yaml
 create           : for internal S retrieval
-env              : basis for -default- `Type'`s (e.g: `Number`, `HtmlElement`, `Error` etc)
+env              : basis for `Type'`s (e.g: `Number`, `HtmlElement`, `Error` etc)
 $                : for `Type`s construction
 Z                : basis for default `TypeClasses` (e.g: `Functor`, `Alt`, `Traversable` etc)
 checkTypes       : "The checkTypes option determines whether type checking is enabled. 
