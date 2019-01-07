@@ -104,9 +104,23 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   // unsafeHead :: [a] -> a
   const unsafeHead = xs => xs[0]
 
-  // _errorMsg :: a -> b -> String
-  const _errorMsg = expected => actual =>
-    `Expected ${show (expected)};\nActual: ${show (actual)}`
+  // ErrorMsg :: {
+  //  simulacrum :: String -> String -> String,
+  //  unrecognizedType      :: String -> String,
+  //  unrecognizedTypeClass :: String -> String
+  // }
+  const ErrorMsg = (() => {
+    const simulacrum = expected => actual =>
+      `Expected ${expected};\nActual: ${actual}`
+
+    const unrecognizedType      = x =>
+      `Unrecognized \`Type\` ${x}`
+
+    const unrecognizedTypeClass = x =>
+      `Unrecognized \`TypeClass\` ${x}`
+
+    return {simulacrum, unrecognizedType, unrecognizedTypeClass}
+  }) ()
 
   // indexBy :: (a -> String) -> b -> StrMap a
   const indexBy = f =>
@@ -159,7 +173,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
       const err  = `a \`Foldable\` with ${desc} ${n} element${dual}`
 
-      const g = B (mapLeft (_errorMsg (err)))
+      const g = B (mapLeft (B (ErrorMsg.simulacrum (err)) (show)))
                   (tagBy (sizeCmp (cmpFn (n))))
 
       return g
@@ -199,7 +213,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
       const rootType = U.prop ("type") (root)
 
       return elem (rootType) (expected) ?
-        $[rootType] (s) : Left (_errorMsg (expected) (rootType))
+        $[rootType] (s) : Left (ErrorMsg.simulacrum (`any of ${show (expected)}`) (rootType))
     }
 
     const ward = p => {
@@ -209,14 +223,14 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
       return Pair (parserId) ($ => s => {
 
         if(!isRoseF (TypeCarton) (SDef.Any) (s)) {
-          return Left (_errorMsg ("a Rose TypeCarton") (s))
+          return Left (ErrorMsg.simulacrum ("a Rose TypeCarton") (show (s)))
         }
 
         // reqParser :: String
         const reqParser = U.prop ("type") (Rose.root (s))
 
         return reqParser === parserId ?
-          U.snd (p) ($) (s) : Left (_errorMsg (parserId) (reqParser))
+          U.snd (p) ($) (s) : Left (ErrorMsg.simulacrum (`a ${parserId}`) (`a ${reqParser}`))
       })
     }
 
@@ -270,7 +284,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
                          "Any"      : SDef.Any       })
 
     // tm1 :: Either String (StrMap Type')
-    const tm1 = B (mapLeft (B (x => `Unrecognized \`Type\` ${x}`) (U.fst)))
+    const tm1 = B (mapLeft (B (ErrorMsg.unrecognizedType) (U.fst)))
                   (map (U.fromPairs))
                        (traverse (Either)
                                  (tagBy (lift2 (and)
@@ -298,7 +312,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
     
     // tcm1 :: Either a (StrMap TypeClass)
     const tcm1 = 
-      B (mapLeft (x => `Unrecognized \`TypeClass\` ${show (x)}`))
+      B (mapLeft (B (ErrorMsg.unrecognizedTypeClass) (show)))
         (map (U.fromPairs))
              (map (xs => zip (map (typeName) (typeClasses)) (xs))
                   (traverse (Either)
@@ -316,12 +330,12 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
   // fetchType :: String -> Either String Type
   const fetchType = name => 
-    maybeToEither (`Unrecognized \`Type\` ${name}`) 
+    maybeToEither (ErrorMsg.unrecognizedType (name))
                   (U.get (isType) (name) (typeMap))
 
   // fetchTypeClass :: String -> Either String TypeClass
   const fetchTypeClass = name =>
-    maybeToEither (`Unrecognized \`TypeClass\` ${name}`)
+    maybeToEither (ErrorMsg.unrecognizedTypeClass (name))
                   (U.get (isTypeClass) (name) (typeClassMap))
 
   // wardParsers :: StrMap QuasiParser -> StrMap QuasiParser
