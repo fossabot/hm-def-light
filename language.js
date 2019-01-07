@@ -288,7 +288,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
                                  (tagBy (lift2 (and)
                                                (B (isType) (U.snd))
                                                (B (isJust)
-                                                  (B (C (U.get (_ => true)) (tm0))
+                                                  (B (C (U.get (K (true))) (tm0))
                                                      (U.fst)))))
                                  (U.pairs (typeConstructors)))
 
