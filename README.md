@@ -127,7 +127,12 @@ ex3 ([])    // error
 
 And if you need custom `Type'`s or `TypeClass`es, there's no secret, e.g:
 ```javascript
-const customEnv = env.concat ([MyCustomType (SDef.Unknown)]) // `Type` in env is mandatory
+const customEnv = env.concat ([MyCustomType (SDef.Date)]) // `Type` in env is mandatory
+                                                          // But it can be refined as 
+                                                          // required: no need to pass
+                                                          // `Unknown`s if not desired,
+                                                          // thus retaining `env` 
+                                                          // characteristics
 
 const S = create ({
   checkTypes, 
@@ -141,7 +146,7 @@ const def = $create ({
   Z, 
   checkTypes,
   typeClasses      : [MyCustomTypeClass],
-  typeConstructors : {MyCustomType}
+  typeConstructors : {MyCustomType} // `Unary` and `Binary` type constructors are sensible here
 })
 
 // ...
