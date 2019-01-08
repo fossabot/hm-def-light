@@ -208,10 +208,10 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
   const P = (() => {
     const match = expected => $ => s => {
 
-      return U.ifElse (C (elem) (expected))
-                      (k => $[k] (s))
-                      (B (Left) (ErrorMsg.simulacrum (`any of ${show (expected)}`)))
-                      (U.prop ("type") (Rose.root (s)))
+      return ifElse (C (elem) (expected))
+                    (k => $[k] (s))
+                    (B (Left) (ErrorMsg.simulacrum (`any of ${show (expected)}`)))
+                    (U.prop ("type") (Rose.root (s)))
     }
 
     const ward = p => {
