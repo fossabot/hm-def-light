@@ -391,7 +391,7 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
 
     thunk: $ =>
       lift2 (C (ap))
-            (_ => Right (UnitSym))
+            (K (Right (UnitSym)))
             (B (empty) (Rose.forest)),
 
     function: $ => {
