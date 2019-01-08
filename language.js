@@ -233,14 +233,17 @@ export default ({S, $ : SDef, Z, typeClasses, typeConstructors}) => {
     }
 
     // scope binder; utility
-    const createLanguage = parsers => {
+    const createLanguage = quasiParsers => {
       const language = {}
 
-      for (let x of U.pairs (parsers)) {
-        const parserId = U.fst (x)
+      for (let x of U.pairs (quasiParsers)) {
+        // parserId :: String
+        const parserId  = U.fst (x)
+        // parserFn :: Parser
+        const parserFn  = U.snd (x) (language)
 
-        language[parserId] = s => mapLeft (err => `<${parserId}> ${err}`) 
-                                          (U.snd (x) (language) (s))
+        language[parserId] = B (mapLeft (err => `<${parserId}> ${err}`)) 
+                               (parserFn)
       }
 
       return language
