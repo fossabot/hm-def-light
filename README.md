@@ -1,6 +1,8 @@
 Javascript runtime [Hindley-Milner](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system) ad hoc type checking with [Sanctuary](https://github.com/sanctuary-js/sanctuary).
 
 ## Overview
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fleosbotelho%2Fhm-def-light.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fleosbotelho%2Fhm-def-light?ref=badge_shield)
+
 
 It's basically a syntax sugar over [sanctuary-def](https://github.com/sanctuary-js/sanctuary-def), inspired on [hm-def](https://github.com/xodio/hm-def).
 
@@ -160,3 +162,6 @@ For more information, I recommend a stride around the referenced resources.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE.md) file for details
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fleosbotelho%2Fhm-def-light.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fleosbotelho%2Fhm-def-light?ref=badge_large)
